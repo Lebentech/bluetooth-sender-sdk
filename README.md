@@ -1,4 +1,8 @@
-# LebentechSenderSDK
+<div align="center">
+  <img src="images/lebentech_logo.png" alt="Lebentech Logo" width="200"/>
+</div>
+
+# Lebentech Bluetooth Sender SDK
 
 SDK para Android que permite la comunicación y envío de datos a través de Bluetooth.
 
