@@ -125,4 +125,82 @@ Asegúrate de que tu aplicación tenga configurado correctamente el `targetSdkVe
 
 ## Uso básico
 
+### Inicialización del SDK
+
+Para crear una instancia del SDK:
+
+```kotlin
+private val bluetoothService: BluetoothService by lazy {
+    BluetoothService(this)
+}
+```
+
+### Escaneo de dispositivos
+
+Ejemplo básico para comenzar a escuchar dispositivos cercanos:
+
+```kotlin
+val state by bluetoothService.state.collectAsState()
+
+this.checkAndRequestBluetoothPermissions {
+    bluetoothService.startScan()
+}
+
+Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    LazyColumn(
+        modifier = Modifier.padding(innerPadding)
+    ) {
+        item {
+            Text(
+                text = "Dispositivos vinculados."
+            )
+        }
+
+        items(state.pairedDevices) {
+            Text(
+                it.name ?: it.address,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        item {
+            Text(
+                text = "Dispositivos encontrados."
+            )
+        }
+
+        items(state.scannedDevices) {
+            Text(
+                it.name ?: it.address,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}
+```
+
+### Estado del Bluetooth (BluetoothUiState)
+
+El SDK proporciona un `MutableStateFlow` con el siguiente estado:
+
+```kotlin
+data class BluetoothUiState(
+    val scannedDevices: List<ApplicationDevice> = emptyList(),
+    val pairedDevices: List<ApplicationDevice> = emptyList(),
+    val isConnected: Boolean = false,
+    val isConnecting: Boolean = false,
+    val errorMessage: String? = null,
+    val messages: BluetoothMessage = BluetoothMessage("", "", "", "", "", "", "", "")
+)
+```
+
+**Propiedades del estado:**
+
+- `scannedDevices`: Dispositivos detectados cercanos durante el escaneo
+- `pairedDevices`: Dispositivos previamente vinculados al dispositivo
+- `isConnected`: Indica si se estableció correctamente una conexión
+- `isConnecting`: Indica si está en proceso de realizar una conexión
+- `errorMessage`: Mensaje de error en caso de problemas de conexión
+- `messages`: Último mensaje enviado a través de Bluetooth
+
 *Documentación en desarrollo...*
