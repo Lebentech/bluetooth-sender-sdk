@@ -21,11 +21,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class BluetoothService (
-    private val context: Context,
-    private val bluetoothController: BluetoothController
+    private val context: Context
 ) {
 
     private val serviceScope = CoroutineScope(Dispatchers.IO)
+
+    private val bluetoothController: BluetoothController = BluetoothController(context)
 
     private val _state = MutableStateFlow(BluetoothUiState())
     val state = combine(
