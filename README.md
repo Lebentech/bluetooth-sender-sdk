@@ -41,7 +41,7 @@ Agrega la dependencia a tu archivo `build.gradle.kts` (Module: app):
 
 ```kotlin
 dependencies {
-    implementation("com.github.Lebentech:bluetooth-sender-sdk:v0.0.1")
+    implementation("com.github.Lebentech:bluetooth-sender-sdk:v0.0.2")
 }
 ```
 
