@@ -113,7 +113,6 @@ class MainActivity : AppCompatActivity() {
         // Solicitar permisos antes de usar el SDK
         this.checkAndRequestBluetoothPermissions {
             Log.d("PERMISSION", "All permissions granted")
-            // Inicializar el SDK aquí
         }
     }
 }
