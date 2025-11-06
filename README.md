@@ -13,6 +13,11 @@ SDK para Android que permite la comunicación y envío de datos a través de Blu
   - [Permisos requeridos](#permisos-requeridos)
   - [Configuración del Manifest](#configuración-del-manifest)
 - [Uso básico](#uso-básico)
+  - [Inicialización del SDK](#inicialización-del-sdk)
+  - [Escaneo de dispositivos](#escaneo-de-dispositivos)
+  - [Estado del Bluetooth (BluetoothUiState)](#estado-del-bluetooth-bluetoothuistate)
+  - [Navegación entre pantallas](#navegación-entre-pantallas)
+  - [Envío de mensajes Bluetooth](#envío-de-mensajes-bluetooth)
 
 ## Instalación
 
