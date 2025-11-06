@@ -202,4 +202,88 @@ data class BluetoothUiState(
 - `errorMessage`: Mensaje de error en caso de problemas de conexión
 - `messages`: Último mensaje enviado a través de Bluetooth
 
+### Navegación entre pantallas
+
+Ejemplo de navegación sencilla basada en el estado de conexión:
+
+```kotlin
+val state by bluetoothService.state.collectAsState()
+
+this.checkAndRequestBluetoothPermissions {
+    bluetoothService.startScan()
+}
+
+MyApplicationTheme {
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        if (state.isConnected) {
+            ConnectionScreen(
+                modifier = Modifier.padding(innerPadding),
+                bluetoothService = bluetoothService
+            )
+        } else {
+            HomeScreen(
+                modifier = Modifier.padding(innerPadding),
+                state = state
+            )
+        }
+    }
+}
+```
+
+**Flujo de navegación:**
+
+1. **HomeScreen**: Muestra dispositivos disponibles y permite seleccionar uno para conectar
+2. **ConnectionScreen**: Se muestra automáticamente cuando `state.isConnected` es `true`, permite enviar mensajes al dispositivo conectado
+
+La navegación se maneja automáticamente basándose en el estado de conexión del SDK.
+
+### Envío de mensajes Bluetooth
+
+Ejemplo de cómo enviar mensajes una vez conectado a un dispositivo:
+
+```kotlin
+var currentId by remember { mutableStateOf("") }
+var isFirstCall by remember { mutableStateOf(true) }
+
+Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally
+) {
+    Button(
+        onClick = {
+            currentId = UUID.randomUUID().toString()
+            isFirstCall = false
+            bluetoothService.sendMessage("1", currentId)
+        },
+        enabled = isFirstCall
+    ) {
+        Text("Iniciar camara")
+    }
+
+    Button(
+        onClick = {
+            isFirstCall = true
+            bluetoothService.sendMessage("2", currentId)
+        },
+        enabled = !isFirstCall
+    ) {
+        Text("Finalizar camara")
+    }
+
+    Button(
+        onClick = {
+            bluetoothService.disconnectFromDevice()
+        }
+    ) {
+        Text("Salir")
+    }
+}
+```
+
+**Funciones principales:**
+
+- `sendMessage(message, id)`: Envía un mensaje al dispositivo conectado
+- `disconnectFromDevice()`: Desconecta del dispositivo actual
+
 *Documentación en desarrollo...*
